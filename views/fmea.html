@@ -1,0 +1,40 @@
+<div id="fmea">
+  <h2 class="page-header">Failure Mode and Effect Analysis <i class="fa fa-search"></i></h2>
+  <div class="row">
+    <div class="col-md-12" ng-init="getFMEA()">
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Jenis Kegagalan</th>
+            <th>Penyebab</th>
+            <th>Severity</th>
+            <th>Occurrence</th>
+            <th>Detectabillity</th>
+            <th>RPN</th>
+            <th>Tindakan Untuk Penanggulangan Jenis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr dir-paginate="df in data_fmea.data | itemsPerPage: 5">
+            <td>{{df.no}}</td>
+            <td>{{df.jenis_cacat}}</td>
+            <td>{{df.penyebab}}</td>
+            <td>{{df.severity}}</td>
+            <td>{{df.occurrence}}</td>
+            <td>{{df.detectabillity}}</td>
+            <td>{{df.rpn}}</td>
+            <td>{{df.tindakan}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-center">
+          <dir-pagination-controls
+                 max-size="5"
+                 direction-links="true"
+                 boundary-links="true">
+          </dir-pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

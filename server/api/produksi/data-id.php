@@ -1,9 +1,10 @@
 <?php
 include('../../koneksi.php');
-
+$in = json_decode(file_get_contents("php://input"));
 $query = "SELECT * FROM produksi LEFT JOIN produk ON produksi.kode_produk = produk.kode_produk
     LEFT JOIN detail_produksi ON produksi.no_produksi = detail_produksi.no_produksi
-    LEFT JOIN ket_defect_produksi ON detail_produksi.kode_ket_defect = ket_defect_produksi.kode_ket_defect GROUP BY produksi.no_produksi";
+    LEFT JOIN ket_defect_produksi ON detail_produksi.kode_ket_defect = ket_defect_produksi.kode_ket_defect
+    WHERE produksi.no_produksi = '$in->no_produksi'";
 $data = mysqli_query($conn, $query);
 $output = array();
 while($row = mysqli_fetch_assoc($data)){

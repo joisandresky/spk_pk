@@ -1,0 +1,268 @@
+<div id="produksi" ng-init="getAllProduksi()">
+    <h2 class="page-header">Data Produksi <i class="fa fa-inbox"></i></h2>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-condensed" ng-init="getProduksi()">
+                    <thead>
+                        <tr>
+                            <th>No Produksi</th>
+                            <th>Nama Produk</th>
+                            <th>Tanggal Produksi</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="pd in data_produksi.produksi| filter:cariProduksi | itemsPerPage:5">
+                            <td>{{pd.no_produksi}}</td>
+                            <td>{{pd.nama_material}}</td>
+                            <td>{{pd.tanggal_produksi}}</td>
+                            <td>
+                                <button class="btn btn-xs btn-warning" ng-click="getFilteredProduksi(pd)"> <i class="fa fa-search"></i> View Data</button>
+                                <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#formEditProduksi" ng-click="onEditProduksi(pd)"><i class="fa fa-edit"></i> Edit</button>
+                                <button class="btn btn-danger btn-xs" ng-click="onHapusProduksi(pd)"><i class="fa fa-remove"></i> Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <dir-pagination-controls
+                           max-size="5"
+                           direction-links="true"
+                           boundary-links="true">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-utils">
+                    <div class="form-group">
+                        <label for="cari"><i class="fa fa-search"></i> Cari</label>
+                        <input type="text" name="cariProduksi" ng-model="cariProduksi" class="form-control">
+                    </div>
+                    <button class="btn btn-primary" data-toggle="collapse" data-target="#formNewProduksi"><i class="fa fa-plus-square"></i> Tambah Jadwal Produksi</button>
+                </div>
+                <div id="formNewProduksi" class="collapse styleForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                        <!-- form Tambah Data -->
+                        <h4 class="sub-header">Tambah Jadwal Produksi Baru</h4>
+                            <form>
+                                <div class="form-group">
+                                    <label for="no_produksi">No Produksi</label>
+                                    <input type="text" name="no_produksi" ng-model="newProduksi.no_produksi" class="form-control" autofocus>
+                                </div>
+                                <div class="form-group" ng-init="getAllProduk()">
+                                    <label for="kode_produk" disabled>Nama Material</label>
+                                    <select name="kode_produk" ng-model="newProduksi.kode_produk" class="form-control">
+                                        <option value="-"> ---> Pilih Material <--- </option>
+                                        <option ng-repeat="dp in dt_produk.products" value="{{dp.kode_produk}}">{{dp.kode_produk}} - {{dp.nama_material}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal_produksi">Tanggal Produksi</label>
+                                    <input type="date" id="tgl_prod" name="tanggal_produksi" ng-model="newProduksi.tanggal_produksi" class="form-control">
+                                </div>
+                                <br>
+                                <div class="box-utils text-center" ng-hide="hidePeriode">
+                                    <button class="btn btn-sm btn-info" type="button" data-toggle="modal" data-target="#formNewPeriode">Masukan Detail Data</button>
+                                </div>
+                                <br>
+                                <button type="button" class="btn btn-success btn-sm" ng-click="onNewProduksi()"><i class="fa fa-send"></i> Simpan</button>
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#formNewProduksi"><i class="fa fa-history"></i> Batal</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- modal Insert Data Per Periode -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalViewData">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">View Detail <i class="fa fa-edit"></i></h4>
+              </div>
+              <div class="modal-body">
+                <table class="table">
+                    <thead class="text-center">
+                        <tr>
+                            <th>Periode</th>
+                            <th>Sample</th>
+                            <th>Jumlah Defect</th>
+                            <th>Ket Defect</th>
+                            <th>Action Inspector Dari Produksi</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr ng-repeat="dprod in dataCounted.countedData | orderBy:'periode'">
+                            <td>{{dprod.periode}}</td>
+                            <td>{{dprod.sample}}</td>
+                            <td>{{dprod.jumlah_defect}}</td>
+                            <td>{{dprod.defect_pertama}} . {{dprod.defect_kedua}} . {{dprod.defect_ketiga}}</td>
+
+                            <td>{{dprod.action_inspector}}</td>
+                            <td ng-init="uraiKodeDefect(dprod.no_produksi)"><button class="btn btn-info" ng-click="onEditDetail(dprod)">Edit</button></td>
+                            <p>Total Sample : <strong>{{dataCounted.totalSample}}</strong></p>
+                            <p>Total Defect : <strong>{{dataCounted.totalDefect}}</strong></p>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group box-utils" id="list-cct">
+                <h3>List Jenis Cacat</h3>
+                    <ul ng-repeat="dfd in data_df">
+                        <li><small>{{dfd}}</small></li>
+                    </ul>
+                </div>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+        <!-- modal Insert Data Per Periode -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="formNewPeriode">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Tambah Detail Data <i class="fa fa-edit"></i></h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <label for="periode">Periode</label>
+                    <select name="periode" ng-model="tempData.periode" class="form-control">
+                        <option value="-"> ---> Pilih Periode <--- </option>
+                        <option value="1" ng-show="!hideAngkaPeriode.satu">Periode 1</option>
+                        <option value="2" ng-show="!hideAngkaPeriode.dua">Periode 2</option>
+                        <option value="3" ng-show="!hideAngkaPeriode.tiga">Periode 3</option>
+                        <option value="4" ng-show="!hideAngkaPeriode.empat">Periode 4</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sample">Sample</label>
+                    <input type="number" name="sample" ng-model="tempData.sample" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="jumlah_defect">Jumlah Defect</label>
+                    <input type="number" name="jumlah_defect" ng-model="tempData.jumlah_defect" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="kode_ket_defect">Kode Keterangan Defect</label>
+                    <input type="text" name="kode_ket_defect" ng-model="tempData.kode_ket_defect" class="form-control">
+                    <br>
+                    <p class="text-center"><button class="btn btn-xs btn-info" type="button" data-toggle="collapse" data-target="#formKeteranganDefect">Tambah Keterangan Defect</button></p>
+                </div>
+                <hr>
+                <div class="collapse box-utils" id="formKeteranganDefect">
+                    <div>
+                        <div class="form-group">
+                            <label for="dp">Defect 1</label>
+                            <select name="dp" ng-model="tempData.ket_defect.dp" class="form-control" ng-init="getDefects()">
+                                <option value="-"> ---> Pilih Defect <--- </option>
+                                <option ng-repeat="dt in dt_defects.data_cacat | orderBy: kode_defect" value="{{dt.kode_defect}}">Kode: {{dt.kode_defect}} - {{dt.jenis_cacat.substring(0, 42)}}...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dk">Defect 2</label>
+                            <select name="dk" ng-model="tempData.ket_defect.dk" class="form-control" ng-init="getDefects()">
+                                <option value="-"> ---> Pilih Defect <--- </option>
+                                <option ng-repeat="dk in dt_defects.data_cacat | orderBy: kode_defect" value="{{dk.kode_defect}}">Kode: {{dk.kode_defect}} - {{dk.jenis_cacat.substring(0, 42)}}...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dkt">Defect 3</label>
+                            <select name="dkt" ng-model="tempData.ket_defect.dkt" class="form-control" ng-init="getDefects()">
+                                <option value="-"> ---> Pilih Defect <--- </option>
+                                <option ng-repeat="dkt in dt_defects.data_cacat | orderBy: kode_defect" value="{{dkt.kode_defect}}">Kode: {{dkt.kode_defect}} - {{dkt.jenis_cacat.substring(0, 42)}}...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="action_inspetor">Action Inspector Dari Produksi</label>
+                    <input type="text" name="action_inspector" ng-model="tempData.action_inspector" class="form-control">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                <button type="button" class="btn btn-primary" ng-click="tambahDetailData(tempData)"><i class="fa fa-plus"></i> Tambah</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- modal Edit Data -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="formEditProduksi">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Data <i class="fa fa-edit"></i></h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                        <div class="form-group">
+                            <label for="no_produksi">No Produksi</label>
+                            <input type="text" name="no_produksi" ng-model="curProduksi.no_produksi" class="form-control" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="kode_produk">Kode Produk</label>
+                            <select name="kode_produk" ng-model="curProduksi.kode_produk" class="form-control">
+                                <option value="{{curProduksi.kode_produk}}">{{curProduksi.kode_produk}} - {{curProduksi.nama_material}}</option>
+
+                                <option ng-repeat="fp in filtered_produksi" value="{{fp.kode_produk}}">{{fp.kode_produk}} - {{fp.nama_material}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tanggal_produksi">Tanggal Produksi</label>
+                            <input type="datetime" name="tanggal_produksi" ng-model="curProduksi.tanggal_produksi" class="form-control">
+                        </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                <button type="button" class="btn btn-primary" ng-click="onUpdateProduksi(curProduksi)"><i class="fa fa-send"></i> Simpan Perubahan</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- modal Edit Data -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalEditDetailProduksi">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Data <i class="fa fa-edit"></i></h4>
+              </div>
+              <div class="modal-body">
+                <div id="formEditOtherDetail">
+                    <div class="form-group">
+                        <label for="sample">Sample</label>
+                        <input type="number" name="sample" ng-model="curDetail.sample" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="jumlah_defect">Jumlah Defect</label>
+                        <input type="number" name="jumlah_defect" ng-model="curDetail.jumlah_defect" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="kode_ket_defect">Kode Keterangan Defect</label>
+                        <input type="text" name="kode_ket_defect" ng-model="curDetail.kode_ket_defect" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="action_inspetor">Action Inspector Dari Produksi</label>
+                        <input type="text" name="action_inspector" ng-model="curDetail.action_inspector" class="form-control">
+                    </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                <button type="button" class="btn btn-primary" ng-click="updateDetail(curDetail)"><i class="fa fa-send"></i> Simpan Perubahan</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+</div>

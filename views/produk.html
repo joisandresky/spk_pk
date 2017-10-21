@@ -1,0 +1,99 @@
+<div id="produk">
+    <h2 class="page-header">Data Produk <i class="fa fa-database"></i></h2>
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-condensed" ng-init="getProducts()">
+                    <thead>
+                        <tr>
+                            <th>Kode Produk</th>
+                            <th>Nama Material</th>
+                            <th>Keterangan Produk</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="pr in data_produk.products| filter:cariProduk | itemsPerPage:5">
+                            <td>{{pr.kode_produk}}</td>
+                            <td>{{pr.nama_material}}</td>
+                            <td>{{pr.keterangan_produk}}</td>
+                            <td>
+                                <button class="btn btn-info btn-xs" data-toggle="modal" data-target="#formEditProduk" ng-click="onEditProduk(pr)"><i class="fa fa-edit"></i> Edit</button>
+                                <button class="btn btn-danger btn-xs" ng-click="hapusProduk(pr)"><i class="fa fa-remove"></i> Hapus</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <dir-pagination-controls
+                           max-size="5"
+                           direction-links="true"
+                           boundary-links="true">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-utils">
+                    <div class="form-group">
+                        <label for="cari"><i class="fa fa-search"></i> Cari</label>
+                        <input type="text" name="cariProduk" ng-model="cariProduk" class="form-control">
+                    </div>
+                    <button class="btn btn-primary" data-toggle="collapse" data-target="#formNewProduk"><i class="fa fa-plus-square"></i> Tambah Data</button>
+                </div>
+                <div id="formNewProduk" class="collapse styleForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                        <!-- form Tambah Data -->
+                        <h4 class="sub-header">Tambah Data Baru</h4>
+                            <form>
+                                <div class="form-group">
+                                    <label for="kode_produk">Kode Produk</label>
+                                    <input type="text" name="kode_produk" ng-model="newProduk.kode_produk" class="form-control" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nama_material">Nama Material</label>
+                                    <input type="text" name="nama_material" ng-model="newProduk.nama_material" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="keterangan_produk">Keterangan Produk</label>
+                                    <textarea name="keterangan_produk" ng-model="newProduk.keterangan_produk" class="form-control" rows="3"></textarea>
+                                </div>
+                                <button type="button" class="btn btn-success btn-sm" ng-click="onNewProduk()"><i class="fa fa-send"></i> Simpan</button>
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#formNewProduk"><i class="fa fa-history"></i> Batal</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- modal Edit Data -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="formEditProduk">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Edit Data <i class="fa fa-edit"></i></h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="kode_produk">Kode Produk</label>
+                        <input type="text" name="kode_produk" ng-model="curProduk.kode_produk" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_material">Nama Material</label>
+                        <input type="text" name="nama_material" ng-model="curProduk.nama_material" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="keterangan_produk">Keterangan Produk</label>
+                        <textarea name="keterangan_produk" ng-model="curProduk.keterangan_produk" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                <button type="button" class="btn btn-primary" ng-click="updateProduk(curProduk)"><i class="fa fa-send"></i> Simpan Perubahan</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+</div>
