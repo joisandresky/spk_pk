@@ -155,8 +155,14 @@ myApp.controller('THController', function($scope, $http){
                 p = totalPC/ts.length;
 
                 CL = p;
+                // var UCL = $scope.hitungCL(p, ts.length, "UCL")
+                // var LCL = $scope.hitungCL(p, ts.length, "LCL")
                 var UCL = p + (3*(Math.sqrt((p*(1-p))/32)));
                 var LCL = CL - (3*(Math.sqrt((CL*(1-CL))/32)));
+                console.log('CL:' + CL)
+                console.log('UCL: ' + UCL)
+                console.log('LCL: ' + LCL)
+                //return true
                 $scope.tengah = CL;
                 $scope.store.peta_kendali = {
                     prd: prd,
