@@ -22,6 +22,10 @@ myApp.controller('THController', function($scope, $http){
       rpn: 0
     }
 
+    $scope.bulatkan = function(nilai){
+        return Math.round10(nilai, -2);
+    }
+
     $scope.onJcChange = function(){
       $scope.jc_selected = true;
       if($scope.jc_selected){
@@ -106,7 +110,7 @@ myApp.controller('THController', function($scope, $http){
       } else {
         nilai = CL - (3*Math.sqrt(CL*(1-CL)/total_sample));
       }
-      return nilai;
+      return Math.round10(nilai, -3);
     }
 
     $scope.cekPetaKendali = function(data){
@@ -157,17 +161,17 @@ myApp.controller('THController', function($scope, $http){
                 CL = p;
                 // var UCL = $scope.hitungCL(p, ts.length, "UCL")
                 // var LCL = $scope.hitungCL(p, ts.length, "LCL")
-                var UCL = p + (3*(Math.sqrt((p*(1-p))/32)));
-                var LCL = CL - (3*(Math.sqrt((CL*(1-CL))/32)));
+                var UCL = Math.round10(p + (3*(Math.sqrt((p*(1-p))/32))), -3);
+                var LCL = Math.round10(CL - (3*(Math.sqrt((CL*(1-CL))/32))), -3);
                 console.log('CL:' + CL)
                 console.log('UCL: ' + UCL)
                 console.log('LCL: ' + LCL)
                 //return true
-                $scope.tengah = CL;
+                $scope.tengah = Math.round10(CL, -3);
                 $scope.store.peta_kendali = {
                     prd: prd,
                     P: p,
-                    CL:CL,
+                    CL:Math.round10(CL, -3),
                     LCL:LCL,
                     UCL: UCL
                 }

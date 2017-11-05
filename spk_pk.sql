@@ -195,20 +195,20 @@ INSERT INTO `users` VALUES ('1', 'admin', 'admin');
 -- ----------------------------
 -- Procedure structure for cekSample
 -- ----------------------------
-DROP PROCEDURE IF EXISTS `cekSample`;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cekSample`()
-BEGIN
-  declare str VARCHAR(255) default '';
-  DECLARE x INT DEFAULT 0;
-  SET x = 1;
+-- DROP PROCEDURE IF EXISTS `cekSample`;
+-- DELIMITER ;;
+-- CREATE DEFINER=`root`@`localhost` PROCEDURE `cekSample`()
+-- BEGIN
+--   declare str VARCHAR(255) default '';
+--   DECLARE x INT DEFAULT 0;
+--   SET x = 1;
 
-  WHILE x <= 5 DO
-    SET str = CONCAT(str,x,',');
-    SET x = x + 1;
-  END WHILE;
+--   WHILE x <= 5 DO
+--     SET str = CONCAT(str,x,',');
+--     SET x = x + 1;
+--   END WHILE;
 
-  select str;
-END
-;;
-DELIMITER ;
+--   select str;
+-- END
+-- ;;
+-- DELIMITER ;

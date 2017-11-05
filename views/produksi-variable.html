@@ -1,0 +1,239 @@
+<div id="produksi-variable">
+    <h2 class="page-header">Data Produksi Variable</h2>
+    <div class="row">
+        <div class="col-md-8" ng-init="loadProdVar()">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>No Produksi</th>
+                        <th>Nama Material</th>
+                        <th>Tanggal Produksi</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="pr in prod_var | filter:cariPrdV | itemsPerPage:5">
+                        <td>{{pr.no_produksi}}</td>
+                        <td>{{pr.materialnya}}</td>
+                        <td>{{pr.tanggal_produksi}}</td>
+                        <td>
+                            <button class="btn btn-info btn-xs" ng-click="onDetailPV(pr)"><i class="fa fa-search"></i> Detail</button>
+                            <button class="btn btn-warning btn-xs" ng-click="onEditPV(pr)"><i class="fa fa-pencil"></i> Edit</button>
+                            <button class="btn btn-danger btn-xs" ng-click="onDeletePV(pr.no_produksi)"><i class="fa fa-remove"></i> Hapus</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <dir-pagination-controls
+                    max-size="5"
+                    direction-links="true"
+                    boundary-links="true">
+                </dir-pagination-controls>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-utils">
+                <div class="form-group">
+                    <label for="cari"><i class="fa fa-search"></i> Cari</label>
+                    <input type="text" name="cariPrdV" ng-model="cariPrdV" class="form-control">
+                </div>
+                <button class="btn btn-primary" data-toggle="collapse" data-target="#formProduksiVariable"><i class="fa fa-plus-square"></i> Tambah Jadwal Produksi</button>
+            </div>
+            <div id="formProduksiVariable" class="collapse styleForm">
+                <div class="row">
+                    <div class="col-md-12">
+                    <!-- form Tambah Data -->
+                    <h4 class="sub-header">Tambah Jadwal Produksi Variable Baru</h4>
+                        <form>
+                            <div class="form-group">
+                                <label for="no_prd">No Produksi</label>
+                                <input type="text" name="no_prdv" class="form-control" ng-model="prdv.no_prd">
+                            </div>
+                            <div class="form-group" ng-init="loadMaterial()">
+                                <label for="kode_produk" disabled>Nama Material</label>
+                                <select name="kode_produk" ng-model="prdv.kode_produk" class="form-control">
+                                    <option value="-"> ---> Pilih Material <--- </option>
+                                    <option ng-repeat="d in produks" value="{{d.kode_produk}}">{{d.kode_produk}} - {{d.nama_material}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tanggal_produksi">Tanggal Produksi</label>
+                                <input type="date" id="tgl_prdv" name="tanggal_produksi" ng-model="prdv.tanggal_produksi" class="form-control">
+                            </div>
+                            <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modalVarX">Masukan Data X</button>
+                            <br>
+                            <br>
+                            <button class="btn btn-info btn-sm" ng-click="onSavePV(prdv)"><i class="fa fa-send"></i> Simpan</button>
+                            <button type="button" class="btn btn-warning btn-sm" data-toggle="collapse" data-target="#formProduksiVariable"><i class="fa fa-history"></i> Batal</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Untuk Menambah Data X -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalVarX">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Input Variable X <i class="fa fa-edit"></i></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="x1">X1</label>
+                        <input type="text" name="x1" ng-model="x.x1" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x2">X2</label>
+                        <input type="text" name="x2" ng-model="x.x2" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x3">X3</label>
+                        <input type="text" name="x3" ng-model="x.x3" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x4">X4</label>
+                        <input type="text" name="x4" ng-model="x.x4" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x5">X5</label>
+                        <input type="text" name="x5" ng-model="x.x5" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x6">X6</label>
+                        <input type="text" name="x6" ng-model="x.x6" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x7">X7</label>
+                        <input type="text" name="x7" ng-model="x.x7" class="form-control input-sm">
+                    </div>
+                    <div class="form-group">
+                        <label for="x8">X8</label>
+                        <input type="text" name="x8" ng-model="x.x8" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                    <button type="button" class="btn btn-primary" ng-click="tambahDetail(x)"><i class="fa fa-plus"></i> Tambah</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- Modal Untuk Edit Data -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalEditPV">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Edit Data Produksi Variable<i class="fa fa-edit"></i></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="no_prd">No Produksi</label>
+                        <input type="text" name="no_prdv" class="form-control" ng-model="currPV.no_produksi" disabled>
+                    </div>
+                    <div class="form-group" ng-init="loadMaterial()">
+                        <label for="kode_produk" disabled>Nama Material</label>
+                        <select name="kode_produk" ng-model="currPV.nama_material" class="form-control">
+                            <option value="-"> ---> Pilih Material <--- </option>
+                            <option ng-repeat="d in produks" value="{{d.kode_produk}}">{{d.kode_produk}} - {{d.nama_material}}</option>
+                        </select>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="tanggal_produksi">Tanggal Produksi</label>
+                        <input type="date" id="currTgl" name="currTgl" ng-model="currPV.tanggal_produksi" class="form-control">
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                    <button type="button" class="btn btn-primary" ng-click="onUpdatePV(currPV)"><i class="fa fa-plus"></i> Simpan</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- Modal Untuk Edit Data -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalDetailPV">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Detail Data Variable X<i class="fa fa-edit"></i></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <p>X1: {{detailPVX.x1}}</p>
+                            <p>X2: {{detailPVX.x2}}</p>
+                            <p>X3: {{detailPVX.x3}}</p>
+                            <p>X4: {{detailPVX.x4}}</p>
+                        </div>
+                        <div class="col-xs-6">
+                            <p>X5: {{detailPVX.x5}}</p>
+                            <p>X6: {{detailPVX.x6}}</p>
+                            <p>X7: {{detailPVX.x7}}</p>
+                            <p>X8: {{detailPVX.x8}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success btn-sm btn-pull-right" ng-click="onEditDetail(detailPVX)">Edit</button>   
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- Modal Untuk Edit Data X -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalEditX">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">Edit Variable X <i class="fa fa-edit"></i></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="x1">X1</label>
+                            <input type="text" name="x1" ng-model="ex.x1" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x2">X2</label>
+                            <input type="text" name="x2" ng-model="ex.x2" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x3">X3</label>
+                            <input type="text" name="x3" ng-model="ex.x3" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x4">X4</label>
+                            <input type="text" name="x4" ng-model="ex.x4" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x5">X5</label>
+                            <input type="text" name="x5" ng-model="ex.x5" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x6">X6</label>
+                            <input type="text" name="x6" ng-model="ex.x6" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x7">X7</label>
+                            <input type="text" name="x7" ng-model="ex.x7" class="form-control input-sm">
+                        </div>
+                        <div class="form-group">
+                            <label for="x8">X8</label>
+                            <input type="text" name="x8" ng-model="ex.x8" class="form-control input-sm">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-history"></i> Batal</button>
+                        <button type="button" class="btn btn-primary" ng-click="onUpdateDetail()"><i class="fa fa-send"></i> Simpan</button>
+                    </div>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+    </div>
+</div>

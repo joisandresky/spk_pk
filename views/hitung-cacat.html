@@ -1,10 +1,9 @@
 <div id="hitung-cacat">
-    <h2 class="page-header">Peta Kendali Kualitas Produksi</h2>
     <div class="row" ng-show="!loadedData">
         <div class="col-md-4 col-md-offset-4">
             <div class="box-utils" ng-show="!loadedData">
-                <h3 class="text-center">Cek Kendali Kualitas Produksi</h3>
                 <div class="form-group" ng-init="loadProduk()">
+                        <h3>Cek Peta Kendali <small>Atribut</small></h3>
                     <label for="nama_produk">Nama Produk</label>
                     <select name="list_produk" class="form-control" ng-model="cari.kode_produk">
                         <option value="-">Semua Produk</option>
@@ -73,8 +72,8 @@
                         <td><strong>{{sp.nama_material}}</strong></td>
                         <td>{{sp.totalSample}}</td>
                         <td>{{sp.totalDefect}}</td>
-                        <td>{{sp.totalDefect / sp.totalSample}}</td>
-                        <td>{{ sp.totalDefect / sp.totalSample * 100}}</td>
+                        <td>{{ bulatkan((sp.totalDefect / sp.totalSample))}}</td>
+                        <td>{{ bulatkan((sp.totalDefect / sp.totalSample * 100))}}</td>
                         <td>{{tengah}}</td>
                         <td>{{hitungCL(tengah, sp.totalSample, "UCL")}}</td>
                         <td>{{hitungCL(tengah, sp.totalSample, "LCL")}}</td>

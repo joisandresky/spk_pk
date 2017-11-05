@@ -18,9 +18,17 @@ myApp.config(function($routeProvider,$locationProvider){
         controller: 'THController',
         templateUrl: 'views/hitung-cacat.html'
     })
+    .when('/dashboard/peta-kendali-variable', {
+        controller: 'PKVController',
+        templateUrl: 'views/peta-variable.html'
+    })
     .when('/dashboard/produksi', {
         controller: 'PController',
         templateUrl: 'views/produksi.html'
+    })
+    .when('/dashboard/produksi-variable', {
+        controller: 'ProdVarController',
+        templateUrl: 'views/produksi-variable.html'
     })
     .when('/dashboard/fmea', {
       controller: 'FMEAController',

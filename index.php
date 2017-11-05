@@ -1,8 +1,8 @@
 <?php
-include('./server/session.php');
-if (!isset($_SESSION['login_user'])){
-  header("Location:login.php");
-}
+// include('./server/session.php');
+// if (!isset($_SESSION['login_user'])){
+//   header("Location:login.php");
+// }
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +17,10 @@ if (!isset($_SESSION['login_user'])){
     <link rel="stylesheet" href="./assets/sweetalert.css">
     <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
 
+    <!-- Load JS FIle -->
+    <script src="./assets/pembulat.js"></script>
+    <script src="./assets/jquery-3.2.0.min.js"></script>
+
     <!-- Load AngularJS Module -->
     <script src="./assets/ng/angular.min.js"></script>
     <script src="./assets/ng/angular-route.js"></script>
@@ -25,6 +29,8 @@ if (!isset($_SESSION['login_user'])){
     <script src="./app.js"></script>
 
     <!-- Load Controllers -->
+    <script src="./controllers/ProdVarController.js"></script>
+    <script src="./controllers/PKVController.js"></script>
     <script src="./controllers/HomeController.js"></script>
     <script src="./controllers/CacatController.js"></script>
     <script src="./controllers/THController.js"></script>
@@ -38,7 +44,6 @@ if (!isset($_SESSION['login_user'])){
     <script src="./assets/sweetalert.min.js"></script>
     <script src="./assets/highchart.src.js"></script>
 
-    <script src="./assets/jquery-3.2.0.min.js"></script>
     <script src="./assets/bootstrap.min.js"></script>
     <title>Sistem Pengendali Kualitas</title>
 </head>
@@ -61,8 +66,10 @@ if (!isset($_SESSION['login_user'])){
                 <li class="dropdown myClass">
                     <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-dashboard"></i> Dashboard <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#/dashboard/produksi"><i class="fa fa-inbox"></i>  Produksi</a></li>
-                        <li><a href="#/dashboard/peta-kendali"><i class="fa fa-check-square-o"></i>  Peta Kendali Kualitas</a></li>
+                        <li><a href="#/dashboard/produksi"><i class="fa fa-inbox"></i>  Produksi Atribut</a></li>
+                        <li><a href="#/dashboard/produksi-variable"><i class="fa fa-inbox"></i> Produksi Variable</a></li>
+                        <li><a href="#/dashboard/peta-kendali"><i class="fa fa-check-square-o"></i>  Peta Kendali Atribut</a></li>
+                        <li><a href="#/dashboard/peta-kendali-variable"><i class="fa fa-check-square-o"></i>  Peta Kendali Variable</a></li>
                         <li><a href="#/dashboard/fmea"><i class="fa fa-remove"></i> FMEA</a></li>
                     </ul>
                 </li>
